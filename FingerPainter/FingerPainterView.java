@@ -56,7 +56,7 @@ public class FingerPainterView extends View {
     private Uri uri;
 
     public FingerPainterView(Context context) {
-        super(context);
+        super(context); // application context
         init(context);
     }
 
@@ -76,9 +76,9 @@ public class FingerPainterView extends View {
         path = new Path();
         paint = new Paint();
 
+        // default brush style and colour
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
-
         paint.setStrokeWidth(20);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setARGB(255,0,0,0);
@@ -115,11 +115,14 @@ public class FingerPainterView extends View {
     @Override
     public Parcelable onSaveInstanceState() {
         Bundle bundle = new Bundle();
+        // save superclass view state
         bundle.putParcelable("superState", super.onSaveInstanceState());
 
         try {
+            // save bitmap to temporary cache file to overcome binder transaction size limit
             File f = File.createTempFile("fingerpaint", ".png", context.getCacheDir());
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(f));
+            // save temporary filename to bundle
             bundle.putString("tempfile", f.getAbsolutePath());
         } catch(IOException e) {
             Log.e("FingerPainterView", e.toString());
@@ -133,8 +136,10 @@ public class FingerPainterView extends View {
             Bundle bundle = (Bundle) state;
 
             try {
+                // load cache file from bundle stored filename
                 File f = new File(bundle.getString("tempfile"));
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+                // need to copy the bitmap to create a mutable version
                 bitmap = b.copy(b.getConfig(), true);
                 b.recycle();
                 f.delete();
@@ -149,16 +154,20 @@ public class FingerPainterView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        // canvas is white with a bitmap with alpha channel drawn over the top
         canvas.drawColor(Color.WHITE);
         canvas.drawBitmap(bitmap, 0, 0, paint);
+        // show current drawing path
         canvas.drawPath(path, paint);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        // called after the activity has been created when the view is inflated
         if(bitmap==null) {
             if(uri!=null) {
                 try {
+                    // attempt to load the uri provided, scale to fit our canvas
                     InputStream stream = context.getContentResolver().openInputStream(uri);
                     Bitmap bm = BitmapFactory.decodeStream(stream);
                     bitmap  = Bitmap.createScaledBitmap(bm, Math.max(w, h), Math.max(w, h), false);
@@ -169,6 +178,7 @@ public class FingerPainterView extends View {
                 }
             }
             else {
+                // create a square bitmap so is drawable even after rotation to landscape
                 bitmap = Bitmap.createBitmap(Math.max(w,h), Math.max(w,h), Bitmap.Config.ARGB_8888);
             }
         }
