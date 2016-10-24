@@ -126,6 +126,8 @@ public class FingerPainterView extends View {
             bundle.putString("tempfile", f.getAbsolutePath());
         } catch(IOException e) {
             Log.e("FingerPainterView", e.toString());
+        } catch(Exception e) {
+            Log.e("FingerPainterView", e.toString());
         }
         return bundle;
     }
