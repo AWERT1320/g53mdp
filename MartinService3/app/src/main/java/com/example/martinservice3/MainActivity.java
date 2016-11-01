@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -21,6 +22,11 @@ public class MainActivity extends ActionBarActivity {
 
         this.startService(new Intent(this, MyBoundService.class));
         this.bindService(new Intent(this, MyBoundService.class), serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    public void onClickStopService(View v)
+    {
+        this.stopService(new Intent(this, MyBoundService.class));
     }
 
     public void onClickCountUp(View v)
@@ -41,13 +47,28 @@ public class MainActivity extends ActionBarActivity {
             // TODO Auto-generated method stub
             Log.d("g53mdp", "MainActivity onServiceConnected");
             myService = (MyBoundService.MyBinder) service;
+            myService.registerCallback(callback);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             // TODO Auto-generated method stub
             Log.d("g53mdp", "MainActivity onServiceDisconnected");
+            myService.unregisterCallback(callback);
             myService = null;
+        }
+    };
+
+    CallbackInterface callback = new CallbackInterface() {
+        @Override
+        public void counterEvent(final int counter) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView tv = (TextView) findViewById(R.id.textView);
+                    tv.setText("counter: " + counter);
+                }
+            });
         }
     };
 
