@@ -30,7 +30,7 @@ public class MyProvider extends ContentProvider
     public boolean onCreate() {
 
         Log.d("g53mdp", "contentprovider oncreate");
-        this.dbHelper = new DBHelper(this.getContext(), "mydb", null, 3);
+        this.dbHelper = new DBHelper(this.getContext(), "mydb", null, 6);
         return true;
     }
 
@@ -76,6 +76,8 @@ public class MyProvider extends ContentProvider
         Uri nu = ContentUris.withAppendedId(uri, id);
 
         Log.d("g53mdp", nu.toString());
+
+        getContext().getContentResolver().notifyChange(nu, null);
 
         return nu;
     }

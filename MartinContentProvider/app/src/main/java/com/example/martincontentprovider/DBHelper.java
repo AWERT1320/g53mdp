@@ -34,7 +34,7 @@ public class DBHelper extends SQLiteOpenHelper
                 ");");
 
         db.execSQL("INSERT INTO people (name, email, food) VALUES ('martin', 'mdf@cs.nott.ac.uk', 'cheese');");
-        db.execSQL("INSERT INTO people (name, email, food) VALUES ('trump', 'idiot@trump.com', 'hillary');");
+        db.execSQL("INSERT INTO people (name, email, food) VALUES ('trump', 'satan@trump.com', 'the world');");
 
         db.execSQL("INSERT INTO animals (name, kind, food) VALUES ('scribble', 'cat', 'whiskers');");
         db.execSQL("INSERT INTO animals (name, kind, food) VALUES ('skippy', 'kangaroo', 'grass');");

@@ -95,11 +95,11 @@ public class ContentProviderUser extends Activity {
         final EditText nameField = (EditText) findViewById(R.id.editText3);
         String name = nameField.getText().toString();
 
-        final EditText emailField = (EditText) findViewById(R.id.editText4);
-        String email = emailField.getText().toString();
-
-        final EditText foodField = (EditText) findViewById(R.id.editText5);
+        final EditText foodField = (EditText) findViewById(R.id.editText4);
         String food = foodField.getText().toString();
+
+        final EditText emailField = (EditText) findViewById(R.id.editText5);
+        String email = emailField.getText().toString();
 
         ContentValues newValues = new ContentValues();
         newValues.put(MyProviderContract.NAME, name);
