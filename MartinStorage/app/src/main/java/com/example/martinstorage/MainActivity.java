@@ -2,6 +2,7 @@ package com.example.martinstorage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -25,14 +26,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getPreference();
+        loadSharedPreference();
 
         writeLocalFile();
 
         dbAdapter = new DatabaseAdapter(this);
         dbAdapter.open();
 
-        queryDBListView();
         queryDBTextView();
 
     }
@@ -55,33 +55,37 @@ public class MainActivity extends Activity {
     public static String CONFIG_STORAGE_NAME = "my preferences";
     public static String CONFIG_PREFERENCE_1 = "preference 1";
 
-    public void getPreference()
+    public void loadSharedPreference()
     {
         SharedPreferences settings = getSharedPreferences(CONFIG_STORAGE_NAME, 0);
 
         String pref = settings.getString(CONFIG_PREFERENCE_1, "not set");
 
-        final EditText textBox = (EditText) findViewById(R.id.editText3);
+        final EditText textBox = (EditText) findViewById(R.id.sharedPreference);
         textBox.setText(pref);
-
     }
 
-    public void setPreference(View v)
+    public void onClickSetSharedPreference(View v)
     {
         SharedPreferences settings = getSharedPreferences(CONFIG_STORAGE_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        final EditText textBox = (EditText) findViewById(R.id.editText3);
+        final EditText textBox = (EditText) findViewById(R.id.sharedPreference);
 
         editor.putString(CONFIG_PREFERENCE_1, textBox.getText()+"");
 
-        editor.commit();
+        editor.apply();
+    }
+
+    public void onClickButton(View v)
+    {
+        startActivity(new Intent(MainActivity.this, DatabaseActivity.class));
     }
 
     public void queryDBTextView() {
 
         StringBuilder sb = new StringBuilder();
-        TextView tv = (TextView)findViewById(R.id.textView);
+        TextView tv = (TextView)findViewById(R.id.dbTextView);
 
         //String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy)
         Cursor c = dbAdapter.db.query("myList", new String[] { "_id", "name", "colour" }, null, null, null, null, null);
@@ -105,31 +109,6 @@ public class MainActivity extends Activity {
         tv.setText(sb);
     }
 
-    public void queryDBListView() {
-        Cursor cursor = dbAdapter.db.query("myList", new String[] { "_id", "name", "colour" }, null, null, null, null, null);
-
-        String[] columns = new String[] {
-                DatabaseAdapter.KEY_NAME,
-                DatabaseAdapter.KEY_COLOUR
-        };
-
-        int[] to = new int[] {
-                R.id.nameView,
-                R.id.colourView,
-        };
-
-        dataAdapter = new SimpleCursorAdapter(
-                this, R.layout.db_item_layout,
-                cursor,
-                columns,
-                to,
-                0);
-
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(dataAdapter);
-
-    }
-
     public void add(View v) {
 
         final EditText inputFieldColour = (EditText) findViewById(R.id.editTextColour);
@@ -137,8 +116,6 @@ public class MainActivity extends Activity {
 
         dbAdapter.addNameColour(inputFieldName.getText().toString(), inputFieldColour.getText().toString());
 
-        queryDBListView();
         queryDBTextView();
     }
-
 }

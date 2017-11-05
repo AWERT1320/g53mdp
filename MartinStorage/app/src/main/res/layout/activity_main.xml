@@ -1,79 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity" >
+    android:weightSum="1">
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/sharedPreference"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Shared preference" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="setPreference"
-        android:text="Preference" />
+        android:onClick="onClickSetSharedPreference"
+        android:text="save preference" />
+
+    <TextView
+        android:id="@+id/dbTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.00"
+        android:text="TextView"
+        android:textSize="24sp" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="48dp"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/editTextName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="name" />
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/editTextColour"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:text="colour" />
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/add"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:onClick="add"
         android:text="Add" />
 
+    <Button
+        android:id="@+id/databaseActivity"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:onClick="onClickButton"
+        android:text="Database Activity" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="fill_parent"
-        android:layout_height="fill_parent" android:weightSum="100">
-
-        <LinearLayout android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="50">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="New Text"
-                android:id="@+id/textView"
-                android:layout_gravity="right" />
-
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="50">
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/listView"
-                android:layout_gravity="center_horizontal" />
-        </LinearLayout>
-    </LinearLayout>
 </LinearLayout>
