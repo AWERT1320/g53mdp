@@ -30,7 +30,7 @@ public class MyProvider extends ContentProvider
     public boolean onCreate() {
 
         Log.d("g53mdp", "contentprovider oncreate");
-        this.dbHelper = new DBHelper(this.getContext(), "mydb", null, 6);
+        this.dbHelper = new DBHelper(this.getContext(), "mydb", null, 7);
         return true;
     }
 

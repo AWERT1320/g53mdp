@@ -1,10 +1,10 @@
 package com.example.martincontentprovider;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.app.ListActivity;
 import android.content.ContentResolver;
@@ -24,6 +24,7 @@ public class ContactsActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_activity);
+
 
         String columns[] = new String[]
                 {
@@ -76,16 +77,16 @@ public class ContactsActivity extends Activity {
 
                     Log.d("g53mdp", "success");
 
-                    Cursor c =  managedQuery(contactData, null, null, null, null);
-                    startManagingCursor(c);
+                    ContentResolver cr = getContentResolver();
+                    Cursor c =  cr.query(contactData, null, null, null, null);
                     if (c.moveToFirst()) {
-                        String name = c.getString(c.getColumnIndexOrThrow(Contacts.People.NAME));
+                        String name = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
 
                         TextView et = (TextView) findViewById(R.id.textView);
                         et.setText(name);
                         Log.d("g53mdp", name);
                     }
-
+                    c.close();
                 }
                 break;
         }
